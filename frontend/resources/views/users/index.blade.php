@@ -21,7 +21,6 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead class="table-dark">
                     <tr>
-                        <th>ID</th>
                         <th>Nama</th>
                         <th>Email</th>
                         <th>Role</th>
@@ -31,9 +30,8 @@
 
                 <tbody>
                     @foreach($users as $user)
-                        @if($user['id'] != 2) {{-- id 2 biasanya super admin --}}
+                        @if($user['id'] != 2) 
                         <tr>
-                            <td>{{ $user['id'] }}</td>
                             <td>{{ $user['nama'] }}</td>
                             <td>{{ $user['email'] }}</td>
                             <td>

@@ -99,6 +99,56 @@ public function storeItem(
     );
 }
 
+public function edit($id)
+{
+    $response = Http::withToken(session('token'))
+        ->get("http://localhost:5000/api/drafts/$id");
+
+    $draft = $response->json();
+
+    if (!$draft || $response->failed()) {
+        abort(404, 'Draft tidak ditemukan');
+    }
+
+    if (!in_array($draft['status'], ['draft', 'submitted'])) {
+        return redirect('/drafts')
+            ->with('error', 'Draft ini tidak bisa diedit.');
+    }
+
+    return view('drafts.edit', compact('draft'));
+}
+
+public function update(Request $request, $id)
+{
+    $response = Http::withToken(session('token'))
+        ->put("http://localhost:5000/api/drafts/$id", [
+            'judul' => $request->judul,
+            'tahun' => $request->tahun,
+        ]);
+
+    if ($response->failed()) {
+        return back()
+            ->withInput()
+            ->with('error', 'Gagal menyimpan perubahan.');
+    }
+
+    return redirect('/drafts')
+        ->with('success', 'Draft berhasil diperbarui.');
+}
+
+public function destroyDraft($id)
+{
+    $response = Http::withToken(session('token'))
+        ->delete("http://localhost:5000/api/drafts/$id");
+
+    if ($response->failed()) {
+        return back()->with('error', 'Gagal menghapus draft.');
+    }
+
+    return redirect('/drafts')
+        ->with('success', 'Draft berhasil dihapus.');
+}
+
 public function submitDraft($id)
 {
     $response = Http::withToken(session('token'))

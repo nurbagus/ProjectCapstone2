@@ -22,7 +22,6 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead class="table-dark">
                     <tr>
-                        <th>ID</th>
                         <th>Nama Ruangan</th>
                         <th>Lokasi</th>
                         <th>Keterangan</th>
@@ -33,7 +32,6 @@
                 <tbody>
                     @foreach($rooms as $room)
                     <tr>
-                        <td>{{ $room['id'] }}</td>
                         <td>{{ $room['nama_ruangan'] }}</td>
                         <td>{{ $room['lokasi'] }}</td>
                         <td>{{ $room['keterangan'] }}</td>

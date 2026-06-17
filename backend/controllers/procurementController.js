@@ -414,3 +414,78 @@ exports.deleteItem = (req, res) => {
     );
 
 };
+
+exports.updateDraft = (req, res) => {
+
+    const { id } = req.params;
+
+    const {
+        judul,
+        tahun
+    } = req.body;
+
+    db.query(
+        `
+        UPDATE procurement_drafts
+        SET judul=?,
+            tahun=?
+        WHERE id=?
+        AND status IN ('draft', 'submitted')
+        `,
+        [
+            judul,
+            tahun,
+            id
+        ],
+        (err, result) => {
+
+            if (err)
+                return res.status(500).json(err);
+
+            if (result.affectedRows === 0)
+                return res.status(403).json({
+                    message:
+                    'Draft tidak ditemukan atau tidak bisa diedit'
+                });
+
+            res.json({
+                message:
+                'Draft berhasil diupdate'
+            });
+
+        }
+    );
+
+};
+
+exports.deleteDraft = (req, res) => {
+
+    const { id } = req.params;
+
+    db.query(
+        `
+        DELETE FROM procurement_drafts
+        WHERE id=?
+        AND status='draft'
+        `,
+        [id],
+        (err, result) => {
+
+            if (err)
+                return res.status(500).json(err);
+
+            if (result.affectedRows === 0)
+                return res.status(403).json({
+                    message:
+                    'Draft tidak ditemukan atau tidak bisa dihapus'
+                });
+
+            res.json({
+                message:
+                'Draft berhasil dihapus'
+            });
+
+        }
+    );
+
+};

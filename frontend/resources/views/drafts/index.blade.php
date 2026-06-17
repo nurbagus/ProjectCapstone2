@@ -68,6 +68,25 @@
                                     </button>
                                 </form>
                             @endif
+
+                            {{-- Tombol edit hanya untuk status yang masih bisa diubah --}}
+                            @if(in_array($draft['status'], ['draft', 'submitted']))
+                                <a href="/drafts/{{ $draft['id'] }}/edit" class="btn btn-warning btn-sm">
+                                    Edit
+                                </a>
+                            @endif
+
+                            {{-- Tombol hapus hanya untuk status draft --}}
+                            @if($draft['status'] == 'draft')
+                                <form action="/drafts/{{ $draft['id'] }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Yakin ingin menghapus draft ini?')">
+                                        Hapus
+                                    </button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                     @endforeach

@@ -108,4 +108,20 @@ router.put(
     procurementController.rejectItem
 );
 
+// PUT - update draft
+router.put(
+    '/drafts/:id',
+    verifyToken,
+    checkRole('kepala_lab'),
+    procurementController.updateDraft
+);
+
+// DELETE - hapus draft
+router.delete(
+    '/drafts/:id',
+    verifyToken,
+    checkRole('kepala_lab'),
+    procurementController.deleteDraft
+);
+
 module.exports = router;

@@ -103,6 +103,10 @@ Route::middleware('check.login')->group(function () {
 
 Route::middleware('check.login')->group(function () {
 
+    Route::get('/drafts/{id}/edit',    [ProcurementController::class, 'edit']);
+    Route::put('/drafts/{id}',         [ProcurementController::class, 'update']);
+    Route::delete('/drafts/{id}',      [ProcurementController::class, 'destroyDraft']);
+
     Route::get(
         '/drafts',
         [ProcurementController::class,'index']
